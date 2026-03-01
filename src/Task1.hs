@@ -10,9 +10,12 @@ module Task1 where
 -- [(1,'a'),(1,'b'),(1,'c')]
 -- >>> encode []
 -- []
---
-encode :: Eq a => [a] -> [(Int, a)]
-encode = error "TODO: define encode"
+encode :: (Eq a) => [a] -> [(Int, a)]
+encode [] = []
+encode (x : xs) = go (1, x) xs
+  where
+    go (l, e) [] = [(l, e)]
+    go (l, e) (y : ys) = if e == y then go (l + 1, e) ys else (l, e) : go (1, y) ys
 
 -- | Decompresses given data using run-length decoding.
 --
@@ -24,9 +27,8 @@ encode = error "TODO: define encode"
 -- "abc"
 -- >>> decode []
 -- []
---
 decode :: [(Int, a)] -> [a]
-decode = error "TODO: define decode"
+decode = concatMap $ uncurry replicate
 
 -- | Rotates given finite list to the left for a given amount N
 --
@@ -44,6 +46,7 @@ decode = error "TODO: define decode"
 -- "cab"
 -- >>> rotate 5 ""
 -- ""
---
 rotate :: Int -> [a] -> [a]
-rotate = error "TODO: define rotate"
+rotate x y = take n . drop (x `mod` n) . cycle $ y
+  where
+    n = length y
