@@ -28,7 +28,7 @@ encode (x : xs) = go (1, x) xs
 -- >>> decode []
 -- []
 decode :: [(Int, a)] -> [a]
-decode = concatMap $ uncurry replicate
+decode = (>>= uncurry replicate)
 
 -- | Rotates given finite list to the left for a given amount N
 --
@@ -47,6 +47,6 @@ decode = concatMap $ uncurry replicate
 -- >>> rotate 5 ""
 -- ""
 rotate :: Int -> [a] -> [a]
-rotate x y = take n . drop (x `mod` n) . cycle $ y
+rotate x y = b ++ a
   where
-    n = length y
+    (a, b) = splitAt (x `mod` length y) y
