@@ -1,5 +1,7 @@
 module Task1 where
 
+import Data.List (group)
+
 -- | Compresses given data using run-length encoding.
 --
 -- Usage example:
@@ -11,11 +13,7 @@ module Task1 where
 -- >>> encode []
 -- []
 encode :: (Eq a) => [a] -> [(Int, a)]
-encode [] = []
-encode (x : xs) = go (1, x) xs
-  where
-    go (l, e) [] = [(l, e)]
-    go (l, e) (y : ys) = if e == y then go (l + 1, e) ys else (l, e) : go (1, y) ys
+encode = map (\x -> (length x, head x)) . group
 
 -- | Decompresses given data using run-length decoding.
 --
