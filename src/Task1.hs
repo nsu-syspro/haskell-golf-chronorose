@@ -1,5 +1,6 @@
 module Task1 where
 
+import Control.Arrow ((&&&))
 import Data.List (group)
 
 -- | Compresses given data using run-length encoding.
@@ -13,7 +14,7 @@ import Data.List (group)
 -- >>> encode []
 -- []
 encode :: (Eq a) => [a] -> [(Int, a)]
-encode = map (\x -> (length x, head x)) . group
+encode = map (length &&& head) . group
 
 -- | Decompresses given data using run-length decoding.
 --
@@ -46,6 +47,6 @@ decode = (>>= uncurry replicate)
 -- ""
 rotate :: Int -> [a] -> [a]
 rotate _ [] = []
-rotate x y = b ++ a
+rotate x y = drop i y ++ take i y
   where
-    (a, b) = splitAt (x `mod` length y) y
+    i = x `mod` length y
