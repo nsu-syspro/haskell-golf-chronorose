@@ -45,6 +45,7 @@ decode = (>>= uncurry replicate)
 -- >>> rotate 5 ""
 -- ""
 rotate :: Int -> [a] -> [a]
+rotate _ [] = []
 rotate x y = b ++ a
   where
     (a, b) = splitAt (x `mod` length y) y
